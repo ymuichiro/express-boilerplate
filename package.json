@@ -1,5 +1,5 @@
 {
-  "name": "express_template",
+  "name": "express-boilerplate",
   "version": "1.0.0",
   "main": "./src/index.ts",
   "repository": "https://github.com/ymuichiro/express_template.git",

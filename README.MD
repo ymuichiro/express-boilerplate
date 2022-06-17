@@ -1,4 +1,4 @@
-# EXPRESS_TEMPLATE
+# express-boilerplate
 
 Express 開発環境のテンプレート
 
