@@ -10,3 +10,5 @@ Express 開発環境のテンプレート
 # デプロイフロー
 
 Dockerfile build --> Google Cloud Registory --> Google Cloud run
+
+# 検証用コンテナ
