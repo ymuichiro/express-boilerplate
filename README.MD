@@ -9,6 +9,15 @@ Express 開発環境のテンプレート
 
 # デプロイフロー
 
-Dockerfile build --> Google Cloud Registory --> Google Cloud run
+```mermaid
+graph LR;
+  Git-->|push|Github
+  Github-->|on|GithubActions
+  GithubActions-->|Dockerfile|GithubContainerRagistory
+```
 
 # 検証用コンテナ
+
+```
+docker pull ghcr.io/ymuichiro/express-boilerplate:latest
+```
