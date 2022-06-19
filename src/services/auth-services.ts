@@ -3,7 +3,7 @@ import { UnauthorizedError } from '../shared/errors';
 import jwt from 'jsonwebtoken';
 
 /**
- * verify token
+ * verify token（トークンの改竄検証）
  **/
 export function verifyToken(req: Request, res: Response, next: NextFunction) {
   // get token in request
