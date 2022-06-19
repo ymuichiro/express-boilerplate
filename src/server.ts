@@ -2,26 +2,29 @@ import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import path from 'path';
 import helmet from 'helmet';
-
-import express, { NextFunction, Request, Response } from 'express';
 import StatusCodes from 'http-status-codes';
+import express, { NextFunction, Request, Response } from 'express';
+import session from 'express-session';
 import 'express-async-errors';
-
-import apiRouter from './routes/api';
+import baseRouter from './routes';
 import logger from 'jet-logger';
 import { CustomError } from './shared/errors';
+import { cookieProps } from './routes/auth-router';
 
 // Constants
 const app = express();
 
 /* ******************************************************************************** *
- *                                  Middlewares
+ *                                  Set basic express settings
  * ******************************************************************************** */
 
 // Common middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cookieParser(cookieProps.secret));
+app.use(
+  session({ secret: cookieProps.secret, resave: false, saveUninitialized: false, cookie: { maxAge: 1000 * 60 * 30 } })
+);
 
 // Show routes called in console during development
 if (process.env.NODE_ENV === 'development') {
@@ -38,7 +41,7 @@ if (process.env.NODE_ENV === 'production') {
  * ******************************************************************************** */
 
 // Add api router
-app.use('/api', apiRouter);
+app.use('/api', baseRouter);
 
 // Error handling
 app.use((err: Error | CustomError, _: Request, res: Response, __: NextFunction) => {

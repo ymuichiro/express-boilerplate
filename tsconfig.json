@@ -4,12 +4,9 @@
     "module": "commonjs",
     "outDir": "dist",
     "strict": true,
-    "baseUrl": "./",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "src/**/*.ts",
-  ],
+  "include": ["src/**/*.ts"]
 }

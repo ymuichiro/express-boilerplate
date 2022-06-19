@@ -26,3 +26,15 @@ export class ParamMissingError extends CustomError {
     super(ParamMissingError.Msg, ParamMissingError.HttpStatus);
   }
 }
+
+/**
+ * 未認証時エラー
+ */
+export class UnauthorizedError extends CustomError {
+  public static readonly Msg = 'Login failed';
+  public static readonly HttpStatus = HttpStatusCodes.UNAUTHORIZED;
+
+  constructor() {
+    super(UnauthorizedError.Msg, UnauthorizedError.HttpStatus);
+  }
+}
