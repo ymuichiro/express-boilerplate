@@ -6,7 +6,7 @@ import StatusCodes from 'http-status-codes';
 import express, { NextFunction, Request, Response } from 'express';
 import session from 'express-session';
 import 'express-async-errors';
-import baseRouter from './routes';
+import baseRouter from './routes/api';
 import logger from 'jet-logger';
 import { CustomError } from './shared/errors';
 import { cookieProps } from './routes/auth-router';
@@ -36,35 +36,31 @@ if (process.env.NODE_ENV === 'production') {
   app.use(helmet());
 }
 
-/* ******************************************************************************** *
- *                         API routes and error handling
- * ******************************************************************************** */
+/* ******************************************************************************* *
+ *                                  Set Router
+ * ******************************************************************************* */
 
 // Add api router
 app.use('/api', baseRouter);
+
+// Set static dir
+const staticDir = path.join(__dirname, 'views');
+app.use(express.static(staticDir));
+
+app.post('*', (_: Request, res: Response) => {
+  res.type('application/json').json({ error: '404' });
+});
+
+// Serve index.html file
+app.get('*', (_: Request, res: Response) => {
+  res.sendFile('index.html', { root: staticDir });
+});
 
 // Error handling
 app.use((err: Error | CustomError, _: Request, res: Response, __: NextFunction) => {
   logger.err(err, true);
   const status = err instanceof CustomError ? err.HttpStatus : StatusCodes.BAD_REQUEST;
   return res.status(status).json({ error: err.message });
-});
-
-/* ******************************************************************************* *
- *                                  Front-end content
- * ******************************************************************************* */
-
-// Set views dir
-const viewsDir = path.join(__dirname, 'views');
-app.set('views', viewsDir);
-
-// Set static dir
-const staticDir = path.join(__dirname, 'public');
-app.use(express.static(staticDir));
-
-// Serve index.html file
-app.get('*', (_: Request, res: Response) => {
-  res.sendFile('index.html', { root: viewsDir });
 });
 
 // Export here and start in a diff file (for testing).
