@@ -6,7 +6,7 @@ import StatusCodes from 'http-status-codes';
 import express, { NextFunction, Request, Response } from 'express';
 import session from 'express-session';
 import 'express-async-errors';
-import baseRouter from './routes/api';
+import baseRouter from './routes/index';
 import logger from 'jet-logger';
 import { CustomError } from './shared/errors';
 import { cookieProps } from './routes/auth-router';
