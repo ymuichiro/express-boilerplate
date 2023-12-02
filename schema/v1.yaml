@@ -1,0 +1,80 @@
+openapi: 3.0.3
+info:
+  title: Swagger Petstore - OpenAPI 3.0
+  description: |-
+    This is a express boiler plate
+  termsOfService: http://example.org
+  contact:
+    email: support@example.org
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.0.1
+servers:
+  - description: development
+    url: http://localhost:3000
+  - description: production
+    url: http://example.org
+tags:
+  - name: user
+paths:
+  /users:
+    get:
+      tags:
+        - user
+      summary: get users
+      operationId: getUsers
+      security:
+        - Bearer: []
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                title: UsersGet200Response
+                allOf:
+                  - $ref: "#/components/schemas/User"
+                  - $ref: "#/components/schemas/Id"
+    post:
+      tags:
+        - user
+      summary: post a user
+      operationId: postUser
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                title: UsersPost200Response
+                allOf:
+                  - $ref: "#/components/schemas/User"
+                  - $ref: "#/components/schemas/Id"
+components:
+  schemas:
+    Id:
+      required:
+        - id
+      properties:
+        id:
+          type: string
+    User:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer

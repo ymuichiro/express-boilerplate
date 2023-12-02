@@ -1,23 +1,23 @@
-name: Publish Docker image
-on: [workflow_dispatch]
+name: Docker publish to ghcr.io
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
 jobs:
-  main:
-    name: Push Docker image to Github Container Registry
+  build:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      - name: Login
-        run: echo $CR_PAT | docker login ghcr.io -u ${OWNER,,} --password-stdin
-        env:
-          CR_PAT: ${{ secrets.GITHUB_TOKEN }}
-          OWNER: ${{ github.repository_owner }}
-      - name: Push to GitHub Container Registry
-        uses: docker/build-push-action@v3
+      - uses: actions/checkout@v3
+      - uses: docker/setup-buildx-action@79abd3f86f79a9d68a23c75a09a9a85889262adf
+      - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+      - uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
         with:
-          push: true
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ghcr.io/${{ github.repository }}:latest

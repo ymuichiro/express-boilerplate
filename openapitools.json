@@ -1,0 +1,32 @@
+{
+  "$schema": "node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "7.1.0",
+    "generators": {
+      "typescript": {
+        "generatorName": "typescript-fetch",
+        "output": "#{cwd}/schema/temp",
+        "enablePostProcessFile": true,
+        "inputSpec": "#{cwd}/schema/v1.yaml",
+        "globalProperty": {
+          "skipFormModel": false
+        },
+        "additionalProperties": {
+          "supportsES6": true,
+          "withInterfaces": true,
+          "prefixParameterInterfaces": true
+        }
+      },
+      "python": {
+        "generatorName": "python",
+        "output": "#{cwd}/bin/client",
+        "enablePostProcessFile": true,
+        "inputSpec": "#{cwd}/schema/v1.yaml",
+        "globalProperty": {
+          "skipFormModel": false
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - '5432:5432'
+
+  express-app:
+    build: .
+    restart: always
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://postgres:mysecretpassword@postgres:5432/mydatabase
+      COOKIE_NAME: dummy
+      COOKIE_SECRET: dummy
+      COOKIE_DOMAIN: localhost:3000
